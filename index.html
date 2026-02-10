@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>San Valentín 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      max-width: 95%;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.08);
+    }
+
+    .yes {
+      background-color: #4CAF50;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    .no {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .heart {
+      position: absolute;
+      color: red;
+      animation: float 2s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-40px); opacity: 0; }
+    }
+
+    /* corazones cayendo */
+    .falling-heart {
+      position: fixed;
+      top: -10px;
+      font-size: 20px;
+      animation: fall linear forwards;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    /* Galería */
+    .gallery {
+      display: none;
+      text-align: center;
+    }
+
+    .gallery h2 {
+      color: #e91e63;
+      margin-bottom: 25px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+
+    .photos img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: scale(0.9);
+      animation: photoIn 1s forwards;
+    }
+
+    .photos img:nth-child(1) { animation-delay: 0.3s; }
+    .photos img:nth-child(2) { animation-delay: 0.6s; }
+    .photos img:nth-child(3) { animation-delay: 0.9s; }
+    .photos img:nth-child(4) { animation-delay: 1.2s; }
+
+    @keyframes photoIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    audio { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="main">
+    <h1>¿Magdalena, quieres ser mi Valentine? 💘</h1>
+    <div class="buttons">
+      <button class="yes" onclick="accept()">Sí</button>
+      <button class="no" onclick="reject()">No</button>
+    </div>
+  </div>
+
+  <div class="container gallery" id="gallery">
+    <h2>Amor de mi vida, feliz 14 de Febrero ❤️<br>Te amo para siempre mi 20 🤍</h2>
+
+    <audio autoplay loop>
+      <source src="music.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio.
+    </audio>
+
+    <div class="photos">
+      <img src="IMG_4408.jpeg" alt="Nosotros 1">
+      <img src="IMG_0463.jpeg" alt="Nosotros 2">
+    </div>
+  </div>
+  </div>
+
+  <script>
+    function reject() {
+      location.reload();
+    }
+
+    function createFallingHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'falling-heart';
+      heart.innerHTML = Math.random() > 0.5 ? '❤️' : '🤍';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createFallingHeart, 400);
+
+    function accept() {
+      const yesBtn = document.querySelector('.yes');
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = '-10px';
+        heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+        yesBtn.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
+
+      setTimeout(() => {
+        document.getElementById('main').style.display = 'none';
+        document.getElementById('gallery').style.display = 'block';
+      }, 1500);
+    }
+  </script>
+
+</body>
+</html>
